@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 import { Manager, Tenant } from "../app/types/prismaTypes";
+import { createNewUserInDatabase } from "../lib/utils";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -25,6 +26,11 @@ export const api = createApi({
 
           const endpoint = userRole === "manager" ? `/managers/${user.userId}` : `/tenants/${user.userId}`
           let userDetailResponse = await fetchWithBQ(endpoint)
+          console.log("details", userDetailResponse)
+          if(userDetailResponse.error?.status === 404) {
+            console.log("golaa")
+            userDetailResponse = await createNewUserInDatabase(user,idToken,userRole,fetchWithBQ)
+          }
           return {
             data:{
               cognitoInfo:{...user},
@@ -41,4 +47,4 @@ export const api = createApi({
   }),
 });
 
-export const {} = api;
+export const {useGetAuthUserQuery, } = api;
