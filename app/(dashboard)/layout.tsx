@@ -1,18 +1,45 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar'
 import { NAVBAR_HEIGHT } from '../../lib/constants'
 import {  SidebarProvider, useSidebar } from '../../components/ui/sidebar'
 import Sidebar from "../../components/AppSidebar"
 import { useGetAuthUserQuery } from '../../state/api'
 import { cn } from '../../lib/utils'
+import { usePathname, useRouter } from 'next/navigation'
+
 
 function LayoutInner({ children }: { children: React.ReactNode }) {
-  const { open } = useSidebar()
-  const { data: authUser } = useGetAuthUserQuery()
+  const { open} = useSidebar()
+  const { data: authUser, isLoading:authLoading } = useGetAuthUserQuery()
+  const router = useRouter()
+  const pathname = usePathname()
+  const [isLoading, setLoading] =  useState(true)
+
+  useEffect(()=>{
+    const userRole = authUser?.userRole?.toLowerCase()
+    if(
+      (userRole === "manager" && pathname.includes("/tenants")) ||
+      (userRole === "tenants" && pathname.includes("manager"))
+    ){
+      router.push(
+        userRole === "manager" ?
+        "/managers/properties"
+        :
+        "/tenants/favorites",
+        {scroll:false}
+      )
+    }else{
+      
+      setLoading(false)
+    }
+  },[authUser, pathname, router])
+  if(authLoading || isLoading) return <>Loading</>
+  if(!authUser?.userRole) return null
 
   return (
-    <div className="min-h-screen w-full bg-primary-100">
+    <div className="min-h-screen w-full bg-primary-100" >
       {/* TODO: Si Navbar usa useSidebar, debe permanecer aquí adentro */}
       <Navbar />
 
@@ -32,7 +59,7 @@ function LayoutInner({ children }: { children: React.ReactNode }) {
   )
 }
 const DashboardLayout = ({children}:{children:React.ReactNode}) => {
-    const {data:authUser} = useGetAuthUserQuery()
+  
   return (
     <SidebarProvider>
         <LayoutInner>{children}</LayoutInner>
