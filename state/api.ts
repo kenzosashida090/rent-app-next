@@ -14,7 +14,7 @@ export const api = createApi({
     }
   }),
   reducerPath: "api",
-  tagTypes: [],
+  tagTypes: ["Managers", "Tenants"],
   endpoints: (build) => ({
     getAuthUser: build.query<User, void>({
       queryFn: async(_, _queryApi, _extraoptions, fetchWithBQ) =>{
@@ -43,8 +43,24 @@ export const api = createApi({
             return{error: error.message || "Could not fetch any data"}
         }
       }
+    }),
+    updateTenantSettings:  build.mutation<Tenant,{cognitoId:string} & Partial<Tenant>>({
+      query:({cognitoId, ...updateTenant})=>({
+        url:`tenants/${cognitoId}`,
+        method:'PUT',
+        body:updateTenant
+      }),
+      invalidatesTags:(result) =>[{type:"Tenants",id:result?.id}] //like react query invalidate a tag to refetch, will do these to align the front end data with the backend data
+    }),
+    updateManagerSettings:  build.mutation<Manager,{cognitoId:string} & Partial<Manager>>({
+      query:({cognitoId, ...updateManager})=>({
+        url:`managers/${cognitoId}`,
+        method:'PUT',
+        body:updateManager
+      }),
+      invalidatesTags:(result) =>[{type:"Managers",id:result?.id}] //like react query invalidate a tag to refetch, will do these to align the front end data with the backend data
     })
   }),
 });
 
-export const {useGetAuthUserQuery, } = api;
+export const {useGetAuthUserQuery,useUpdateTenantSettingsMutation, useUpdateManagerSettingsMutation } = api;
