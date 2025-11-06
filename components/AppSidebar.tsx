@@ -23,7 +23,7 @@ const AppSidebar = ({userType}:AppSidebarProps) => {
         [
             {icon:Heart, label:"Favorites", href:"/tenants/favorites"},
             {icon:Home, label:"Residences", href:"/tenants/residences"},
-            {icon:Settings, label:"Settings", href:"/managers/settings"}
+            {icon:Settings, label:"Settings", href:"/tenants/settings"}
         ]
 
 
