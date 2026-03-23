@@ -4,12 +4,13 @@ import { useGetAuthUserQuery, useUpdateManagerSettingsMutation } from '../../../
 import SettingsForm from '../../../../components/SettingsForm'
 const ManagerSettings = () => {
   const {data:authUser, isLoading} = useGetAuthUserQuery()
+    
   const [updateManager] = useUpdateManagerSettingsMutation()
   if(isLoading) return <>Loading</>
   const initialData = {
-    name: authUser?.userInfo.name,
-    email: authUser?.userInfo.email,
-    phoneNumber: authUser?.userInfo.phoneNumber,
+    name: authUser?.userInfo?.name,
+    email: authUser?.userInfo?.email,
+    phoneNumber: authUser?.userInfo?.phoneNumber,
 
   }
   const handleSubmit = async(data: typeof initialData) => {
