@@ -1,7 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { toast } from "sonner";
-
+import {debounce} from "lodash"
+import { FiltersState } from "../state";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -56,6 +57,15 @@ export const withToast = async <T>(
   }
 };
 
+export const updateUrl = (newVFilters: FiltersState)=>{
+        const cleanFilters = cleanParams(newVFilters)
+        const updateSearchParams = new URLSearchParams()
+        Object.entries(cleanFilters).forEach(([key,value])=>{
+            updateSearchParams.set(key, Array.isArray(value) ? value.join(","): value.toString())
+        })
+        if(!updateSearchParams) return
+        return updateSearchParams
+    }
 export const createNewUserInDatabase = async (
   user: any,
   idToken: any,
