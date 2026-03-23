@@ -129,7 +129,7 @@ const formFields = {
     email:{
       order:2,
       placeholder:'Enter your email',
-      label:"Password",
+      label:"Email",
       isRequired:true
     },
     password:{
