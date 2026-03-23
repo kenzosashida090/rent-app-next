@@ -5,7 +5,7 @@ import SettingsForm from '../../../../components/SettingsForm'
 
 const TenantSettings = () => {
   const {data:authUser, isLoading} = useGetAuthUserQuery()
-    
+  console.log(authUser,"-----")
   const [updateTenant] = useUpdateTenantSettingsMutation()
   if(isLoading) return <>Loading</>
   const initialData = {
