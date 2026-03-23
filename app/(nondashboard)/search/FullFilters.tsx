@@ -1,5 +1,5 @@
 import { usePathname, useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '../../../state/redux'
 import { FiltersState, initialState, setFilters } from '../../../state'
@@ -8,7 +8,6 @@ import { Input } from '../../../components/ui/input'
 import { Button } from '../../../components/ui/button'
 import { Search } from 'lucide-react'
 import { AmenityIcons, PropertyTypeIcons } from '../../../lib/constants'
-import { PropertyType } from '../../types/prismaTypes'
 import { Slider } from '../../../components/ui/slider'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../components/ui/select'
 
@@ -16,11 +15,8 @@ const FullFilters = () => {
     const dispatch = useDispatch()
     const pathName = usePathname()
     const router = useRouter()
-    const filters = useAppSelector((state)=> state.global.filters)
-    const viewMode = useAppSelector((state)=> state.global.viewMode)
     const isFiltersFullOpen = useAppSelector((state)=> state.global.isFiltersFullOpen)
     const [localFilters, setLocalFilters] = useState(initialState.filters)
-    const [searchInput, setSearchInput] = useState(filters.location)
     const updateUrl = (newFilters: FiltersState)=>{
         const updatedSearchParams= updateUrlUtil(newFilters)
         router.push(`${pathName}?${updatedSearchParams?.toString()}`)
