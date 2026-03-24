@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Landing from "./(nondashboard)/landing/page";
 
 export default function Home() {
