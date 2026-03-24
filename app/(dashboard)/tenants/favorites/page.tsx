@@ -2,6 +2,7 @@
 import { useAddFavoritePropertyMutation, useGetAuthUserQuery, useGetTenantQuery, useRemoveFavoritePropertyMutation } from '../../../../state/api'
 import Card from '../../../../components/Card'
 import Header from '../../../../components/Header'
+import { Property } from '../../../types/prismaTypes'
     
     const Favorites = () => {
             const {data: authUser} = useGetAuthUserQuery()
@@ -25,7 +26,7 @@ import Header from '../../../../components/Header'
             <Header title='Favorited Properties' subtitle='Browse and manage your saved property listings' />
         <div className='grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-8'>
   
-            {tenant?.favorites?.map((properties)=>(
+            {tenant?.favorites?.map((properties: Property)=>(
                 <div key={properties.id} className='w-full '>
                 <Card 
                 
