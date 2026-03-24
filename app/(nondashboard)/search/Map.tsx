@@ -10,7 +10,6 @@ mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN as string
 const Map = () => {
     const mapContainerRef = useRef(null)
     const filters = useAppSelector((state)=>state.global.filters)
-    const isFiltersFullOpen = useAppSelector((state)=>state.global.isFiltersFullOpen)
     const {isLoading, data:properties, isError} =useGetPropertiesQuery(filters)
         const createPropertyMarker = (property: Property, map: mapboxgl.Map)=>{
       console.log(property,"---------")
