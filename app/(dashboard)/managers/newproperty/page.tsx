@@ -12,7 +12,7 @@ const NewProperty = () => {
   const [createProperty] = useCreatePropertyMutation();
   const { data: authUser } = useGetAuthUserQuery();
   const form = useForm<PropertyFormData>({
-    resolver: zodResolver(propertySchema),
+    resolver:zodResolver(propertySchema),
     defaultValues: {
       name: "",
       description: "",
@@ -30,6 +30,7 @@ const NewProperty = () => {
       address: "",
       city: "",
       state: "",
+      propertyType: PropertyTypeEnum.Apartment,
       country: "",
       postalCode: "",
     },
