@@ -75,7 +75,7 @@ const FiltersBar = () => {
                 onClick={()=> dispatch(toggleFiltersFullOpen())}
             >
                 <Filter className='w-4 h-4'/>
-                <span>All Filters Sexoo</span>
+                <span>All Filters</span>
             </Button>
             <div className='flex items-center'>
                 <Input
